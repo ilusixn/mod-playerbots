@@ -14,6 +14,7 @@
 #include "PlayerbotGuildMgr.h"
 #include "Playerbots.h"
 #include "RandomItemMgr.h"
+#include "Tokenize.h"
 #include "RandomPlayerbotFactory.h"
 #include "RandomPlayerbotMgr.h"
 #include "Talentspec.h"
@@ -739,6 +740,16 @@ bool PlayerbotAIConfig::Initialize()
     coaBossKnowledge = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaBossKnowledge", true);
     coaRecruitSameFaction = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaRecruitSameFaction", true);
     coaBotSurname = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaBotSurname", true);
+    coaBotSurnames.clear();
+    std::string const surnameList = sConfigMgr->GetOption<std::string>("AiPlayerbot.CoaBotSurnames", "");
+    for (std::string_view surname : Acore::Tokenize(surnameList, ',', false))
+    {
+        std::string trimmed(surname);
+        trimmed.erase(0, trimmed.find_first_not_of(" 	"));
+        trimmed.erase(trimmed.find_last_not_of(" 	") + 1);
+        if (!trimmed.empty() && trimmed.find_first_of("' ") == std::string::npos)
+            coaBotSurnames.push_back(trimmed);
+    }
     coaThreatHold = sConfigMgr->GetOption<uint32>("AiPlayerbot.CoaThreatHold", 0);
     coaAttackLoop = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaAttackLoop", true);
     coaKeepChannels = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaKeepChannels", true);

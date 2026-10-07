@@ -73,7 +73,7 @@ Player* RandomPlayerbotFactory::CreateRandomBot(WorldSession* session, uint8 cls
     for (uint8 race = RACE_HUMAN; race < sRaceMgr->GetMaxRaces(); ++race)
     {
         // skip disabled with config races
-        if ((1 << (race - 1)) & sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_RACEMASK))
+        if ((1u << ((race - 1) & 31)) & sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_RACEMASK))
             continue;
 
         // Try to get 50/50 faction distribution for random bot population balance.

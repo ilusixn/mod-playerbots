@@ -1728,6 +1728,17 @@ AiPlayerbot.CoaHealsExcluded = "Nanobot Reconstruction"
 AiPlayerbot.CoaBotSurname = 1
 
 #
+#    AiPlayerbot.CoaBotSurnames
+#        Description: Surnames for the random bots instead of "Bot", separated by commas: "Kegarink Dupont".
+#                     Each bot gets one from the list when it is created; existing bots are renamed at the
+#                     next start. A bot keeps the same surname from one start to the next. Needs
+#                     AiPlayerbot.CoaBotSurname = 1. One word each, no spaces or quotes.
+#        Default:     "" - the surname "Bot"
+#        Example:     AiPlayerbot.CoaBotSurnames = "Dupont,Martin,Tremblay,Gagnon"
+
+AiPlayerbot.CoaBotSurnames = ""
+
+#
 #    AiPlayerbot.CoaRecruitSameFaction
 #        Description: Bots recruited by a player (lfg bot, .playerbots coa tank|heal|dps, the
 #                     SquidBots buttons) are of the player's faction, even on a realm that allows
