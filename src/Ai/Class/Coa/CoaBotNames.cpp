@@ -18,12 +18,13 @@ namespace
 {
 // Conquest of Azeroth names take two words, a first name and a surname (client revision 8): the
 // surname tells a bot from a player at a glance, on its nameplate, in chat and in /who.
+// AiPlayerbot.CoaBotSurnames replaces it with a list: each bot draws its surname from the list by
+// its first name, so it keeps the same one from one start to the next.
 constexpr char const* Surname = " Bot";
 
-bool HasSurname(std::string const& name)
+std::string FirstName(std::string const& name)
 {
-    std::string const suffix(Surname);
-    return name.size() > suffix.size() && name.compare(name.size() - suffix.size(), suffix.size(), suffix) == 0;
+    return name.substr(0, name.find(' '));
 }
 }  // namespace
 
@@ -31,7 +32,13 @@ std::string CoaBotName(std::string const& firstName)
 {
     if (!sPlayerbotAIConfig.coaBotSurname || firstName.find(' ') != std::string::npos)
         return firstName;
-    return firstName + Surname;
+    std::vector<std::string> const& surnames = sPlayerbotAIConfig.coaBotSurnames;
+    if (surnames.empty())
+        return firstName + Surname;
+    uint32 hash = 2166136261u;                       // FNV-1a: the same on every start and build
+    for (unsigned char c : firstName)
+        hash = (hash ^ c) * 16777619u;
+    return firstName + " " + surnames[hash % surnames.size()];
 }
 
 void ApplyCoaBotSurnames()
@@ -72,11 +79,10 @@ void ApplyCoaBotSurnames()
         if (!accounts.count(row.account))
             continue;
 
-        bool const has = HasSurname(row.name);
-        if (has == wanted || (wanted && row.name.find(' ') != std::string::npos))
+        // Also moves a bot from " Bot" to the list's surname, or to another one when the list changes.
+        std::string renamedTo = wanted ? CoaBotName(FirstName(row.name)) : FirstName(row.name);
+        if (renamedTo == row.name)
             continue;
-
-        std::string renamedTo = wanted ? row.name + Surname : row.name.substr(0, row.name.size() - std::string(Surname).size());
         // A player may hold the name already: that bot keeps its own.
         if (names.count(renamedTo))
         {
@@ -94,6 +100,6 @@ void ApplyCoaBotSurnames()
     CharacterDatabase.CommitTransaction(trans);
 
     if (renamed || skipped)
-        LOG_INFO("server.loading", ">> {} the surname \"Bot\" for {} random bots ({} names already taken)",
+        LOG_INFO("server.loading", ">> {} the surname for {} random bots ({} names already taken)",
                  wanted ? "Gave" : "Took back", renamed, skipped);
 }
