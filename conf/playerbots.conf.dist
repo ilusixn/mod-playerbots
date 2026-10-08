@@ -1739,6 +1739,14 @@ AiPlayerbot.CoaBotSurname = 1
 AiPlayerbot.CoaBotSurnames = ""
 
 #
+#    AiPlayerbot.ExcludedBotRaces
+#        Description: Race ids new random bots are never created with, separated by commas (races hidden from
+#                     character creation: replaced, test or broken ones). Existing bots keep their race.
+#        Default:     "19,27,65,72,77" - old Vulpera and Earthen, the test race, Skyborne (CoA Custom)
+
+AiPlayerbot.ExcludedBotRaces = "19,27,65,72,77"
+
+#
 #    AiPlayerbot.CoaRecruitSameFaction
 #        Description: Bots recruited by a player (lfg bot, .playerbots coa tank|heal|dps, the
 #                     SquidBots buttons) are of the player's faction, even on a realm that allows

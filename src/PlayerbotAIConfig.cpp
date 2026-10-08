@@ -750,6 +750,11 @@ bool PlayerbotAIConfig::Initialize()
         if (!trimmed.empty() && trimmed.find_first_of("' ") == std::string::npos)
             coaBotSurnames.push_back(trimmed);
     }
+    coaExcludedBotRaces.clear();
+    std::string const excludedRaces = sConfigMgr->GetOption<std::string>("AiPlayerbot.ExcludedBotRaces", "19,27,65,72,77");
+    for (std::string_view race : Acore::Tokenize(excludedRaces, ',', false))
+        if (uint32 id = std::strtoul(std::string(race).c_str(), nullptr, 10))
+            coaExcludedBotRaces.insert(id);
     coaThreatHold = sConfigMgr->GetOption<uint32>("AiPlayerbot.CoaThreatHold", 0);
     coaAttackLoop = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaAttackLoop", true);
     coaKeepChannels = sConfigMgr->GetOption<bool>("AiPlayerbot.CoaKeepChannels", true);

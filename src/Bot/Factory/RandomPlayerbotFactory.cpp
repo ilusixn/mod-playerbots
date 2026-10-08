@@ -76,6 +76,10 @@ Player* RandomPlayerbotFactory::CreateRandomBot(WorldSession* session, uint8 cls
         if ((1u << ((race - 1) & 31)) & sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_RACEMASK))
             continue;
 
+        // races hidden from character creation (replaced, test or broken) get no new random bots
+        if (sPlayerbotAIConfig.coaExcludedBotRaces.count(race))
+            continue;
+
         // Try to get 50/50 faction distribution for random bot population balance.
         // Without this check, races from the faction with more class options would dominate.
         if (alliance == IsAlliance(race))

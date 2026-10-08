@@ -407,6 +407,7 @@ public:
     bool coaRecruitSameFaction;
     bool coaBotSurname;
     std::vector<std::string> coaBotSurnames;
+    std::set<uint32> coaExcludedBotRaces;
     uint32 coaThreatHold;
     bool coaAttackLoop;
     bool coaKeepChannels;
