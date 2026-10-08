@@ -751,7 +751,7 @@ bool PlayerbotAIConfig::Initialize()
             coaBotSurnames.push_back(trimmed);
     }
     coaExcludedBotRaces.clear();
-    std::string const excludedRaces = sConfigMgr->GetOption<std::string>("AiPlayerbot.ExcludedBotRaces", "19,27,65,72,77");
+    std::string const excludedRaces = sConfigMgr->GetOption<std::string>("AiPlayerbot.ExcludedBotRaces", "19,27,65,72,77,16,50,67,32,66,68,69,70,71,74");
     for (std::string_view race : Acore::Tokenize(excludedRaces, ',', false))
         if (uint32 id = std::strtoul(std::string(race).c_str(), nullptr, 10))
             coaExcludedBotRaces.insert(id);

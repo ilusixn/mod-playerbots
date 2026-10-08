@@ -1744,7 +1744,7 @@ AiPlayerbot.CoaBotSurnames = ""
 #                     character creation: replaced, test or broken ones). Existing bots keep their race.
 #        Default:     "19,27,65,72,77" - old Vulpera and Earthen, the test race, Skyborne (CoA Custom)
 
-AiPlayerbot.ExcludedBotRaces = "19,27,65,72,77"
+AiPlayerbot.ExcludedBotRaces = "19,27,65,72,77,16,50,67,32,66,68,69,70,71,74"
 
 #
 #    AiPlayerbot.CoaRecruitSameFaction
